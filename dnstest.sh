@@ -12,6 +12,7 @@ PROVIDERS="
 4.2.2.1#level3 
 8.8.8.8#google 
 9.9.9.9#quad9 
+45.90.28.0#NextDNS
 80.80.80.80#freenom 
 208.67.222.123#opendns 
 199.85.126.20#norton 
@@ -23,8 +24,7 @@ PROVIDERS="
 "
 
 # Domains to test. Duplicated domains are ok
-DOMAINS2TEST="www.google.com amazon.com facebook.com www.youtube.com www.reddit.com  wikipedia.org twitter.com gmail.com www.google.com whatsapp.com"
-
+DOMAINS2TEST="google.com facebook.com yahoo.com amazon.com ibm.com microsoft.com apple.com medium.com cnn.com foxnews.com bild.de nytimes.com mateja.prelovac.com enigma.rs hmdt.jp podravka.hr argentia.com.ar bildung.sachsen.de orionfeedback.org unknowndomain1233.com womenoftoday.com unionsforenergydemocracy.org adaniairports.com labola.es christopherfowler.co.uk groupe-ecomedia.com 12noon.com michaelasseff.net intfiction.org headhunter-blog.de dorure.fr hookedonphonics.us annhamiltonstudio.com sv-mistelgau.de heimat-berlin.com sdreadytowork.com leadabatementproducts.com goingonanadventure.co.uk noncense.org"
 
 totaldomains=0
 printf "%-18s" ""
