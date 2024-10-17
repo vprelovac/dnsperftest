@@ -48,7 +48,7 @@ done
 printf "%-8s" "Average"
 echo ""
 
-declare -A results
+results=()
 
 for p in $NAMESERVERS $PROVIDERS; do
     pip=${p%%#*}
@@ -75,14 +75,14 @@ for p in $NAMESERVERS $PROVIDERS; do
 
     echo "  $avg"
     
-    results[$pname]="$pip $ftime $avg $median"
+    results+=("$pname|$pip|$ftime|$avg|$median")
 done
 
 echo ""
 echo "Summary Table:"
 printf "%-20s %-15s %-15s %-15s %-15s\n" "DNS Name" "DNS IP" "Total Time" "Average Time" "Median Time"
-for pname in "${!results[@]}"; do
-    read -r pip total avg median <<< "${results[$pname]}"
+for result in "${results[@]}"; do
+    IFS='|' read -r pname pip total avg median <<< "$result"
     printf "%-20s %-15s %-15s %-15s %-15s\n" "$pname" "$pip" "$total ms" "$avg ms" "$median ms"
 done
 
