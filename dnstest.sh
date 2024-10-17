@@ -82,8 +82,8 @@ echo ""
 echo "Summary Table:"
 printf "%-20s %-15s %-15s %-15s %-15s\n" "DNS Name" "DNS IP" "Total Time" "Average Time" "Median Time"
 
-# Sort results by median time
-IFS=$'\n' sorted_results=($(sort -t'|' -k5 -n <<<"${results[*]}"))
+# Sort results by total time
+IFS=$'\n' sorted_results=($(sort -t'|' -k3 -n <<<"${results[*]}"))
 
 for result in "${sorted_results[@]}"; do
     IFS='|' read -r pname pip total avg median <<< "$result"
