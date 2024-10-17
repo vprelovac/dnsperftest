@@ -9,22 +9,23 @@ NAMESERVERS=`cat /etc/resolv.conf | grep ^nameserver | cut -d " " -f 2 | sed 's/
 
 PROVIDERS="
 1.1.1.1#cloudflare 
-4.2.2.1#level3 
 8.8.8.8#google 
 9.9.9.9#quad9 
 45.90.28.0#NextDNS
+103.247.36.36#DNSFilter
+76.76.2.0#ControlD
+4.2.2.1#level3 
+208.67.222.123#Cisco
 80.80.80.80#freenom 
 208.67.222.123#opendns 
 199.85.126.20#norton 
 185.228.168.168#cleanbrowsing 
 77.88.8.7#yandex 
-176.103.130.132#adguard 
 156.154.70.3#neustar 
-8.26.56.26#comodo
 "
 
 # Domains to test. Duplicated domains are ok
-DOMAINS2TEST="google.com facebook.com yahoo.com amazon.com ibm.com microsoft.com apple.com medium.com cnn.com foxnews.com bild.de nytimes.com mateja.prelovac.com enigma.rs hmdt.jp podravka.hr argentia.com.ar bildung.sachsen.de orionfeedback.org unknowndomain1233.com womenoftoday.com unionsforenergydemocracy.org adaniairports.com labola.es christopherfowler.co.uk groupe-ecomedia.com 12noon.com michaelasseff.net intfiction.org headhunter-blog.de dorure.fr hookedonphonics.us annhamiltonstudio.com sv-mistelgau.de heimat-berlin.com sdreadytowork.com leadabatementproducts.com goingonanadventure.co.uk noncense.org"
+DOMAINS2TEST="kagi.com google.com facebook.com yahoo.com amazon.com ibm.com microsoft.com apple.com medium.com cnn.com foxnews.com bild.de nytimes.com mateja.prelovac.com enigma.rs hmdt.jp podravka.hr argentia.com.ar bildung.sachsen.de orionfeedback.org unknowndomain1233.com womenoftoday.com unionsforenergydemocracy.org adaniairports.com labola.es christopherfowler.co.uk groupe-ecomedia.com 12noon.com michaelasseff.net intfiction.org headhunter-blog.de dorure.fr hookedonphonics.us annhamiltonstudio.com sv-mistelgau.de heimat-berlin.com sdreadytowork.com leadabatementproducts.com goingonanadventure.co.uk junkfood.com noncense.org teclis.com igotthiswrongsdklf.com sundayhome.brb"
 
 totaldomains=0
 printf "%-18s" ""
@@ -34,7 +35,6 @@ for d in $DOMAINS2TEST; do
 done
 printf "%-8s" "Average"
 echo ""
-
 
 for p in $NAMESERVERS $PROVIDERS; do
     pip=${p%%#*}
