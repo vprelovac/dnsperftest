@@ -40,12 +40,21 @@ PROVIDERS="
 DOMAINS2TEST="kagi.com google.com facebook.com yahoo.com amazon.com ibm.com microsoft.com apple.com medium.com cnn.com foxnews.com bild.de nytimes.com mateja.prelovac.com enigma.rs hmdt.jp podravka.hr argentia.com.ar bildung.sachsen.de orionfeedback.org unknowndomain1233.com womenoftoday.com unionsforenergydemocracy.org adaniairports.com labola.es christopherfowler.co.uk groupe-ecomedia.com 12noon.com michaelasseff.net intfiction.org headhunter-blog.de dorure.fr hookedonphonics.us annhamiltonstudio.com sv-mistelgau.de heimat-berlin.com sdreadytowork.com leadabatementproducts.com goingonanadventure.co.uk junkfood.com noncense.org teclis.com igotthiswrongsdklf.com sundayhome.brb"
 
 totaldomains=0
-printf "%-18s" ""
+# Print markdown table header
+printf "| %-16s |" "DNS Provider"
 for d in $DOMAINS2TEST; do
     totaldomains=$((totaldomains + 1))
-    printf "%-8s" "test$totaldomains"
+    printf " %-7s |" "test$totaldomains"
 done
-printf "%-8s" "Average"
+printf " %-7s |" "Average"
+echo ""
+
+# Print markdown table separator with alignment
+printf "|:%-16s:|" "-----------------"
+for ((i=1; i<=totaldomains; i++)); do
+    printf ":%-7s:|" "--------"
+done
+printf ":%-7s:|" "--------"
 echo ""
 
 results=()
@@ -56,7 +65,7 @@ for p in $NAMESERVERS $PROVIDERS; do
     ftime=0
     times=()
 
-    printf "%-18s" "$pname"
+    printf "| %-16s |" "$pname"
     for d in $DOMAINS2TEST; do
         ttime=`$dig +tries=1 +time=2 +stats @$pip $d |grep "Query time:" | cut -d : -f 2- | cut -d " " -f 2`
         if [ -z "$ttime" ]; then
@@ -66,28 +75,30 @@ for p in $NAMESERVERS $PROVIDERS; do
             ttime=1
         fi
 
-        printf "%-8s" "$ttime ms"
+        printf " %-7s |" "$ttime ms"
         ftime=$((ftime + ttime))
         times+=($ttime)
     done
     avg=$(bc -l <<< "scale=2; $ftime / $totaldomains")
     median=$(calculate_median "${times[@]}")
 
-    echo "  $avg"
+    printf " %-7.2f |\n" "$avg"
     
     results+=("$pname|$pip|$ftime|$avg|$median")
 done
 
 echo ""
-echo "Summary Table:"
-printf "%-20s %-15s %-15s %-15s %-15s\n" "DNS Name" "DNS IP" "Total Time" "Average Time" "Median Time"
+echo "## Summary Table"
+echo ""
+echo "| DNS Name | DNS IP | Total Time | Average Time | Median Time |"
+echo "|:---------|:-------|:-----------|:-------------|:------------|"
 
 # Sort results by total time
 IFS=$'\n' sorted_results=($(sort -t'|' -k3 -n <<<"${results[*]}"))
 
 for result in "${sorted_results[@]}"; do
     IFS='|' read -r pname pip total avg median <<< "$result"
-    printf "%-20s %-15s %-15s %-15s %-15s\n" "$pname" "$pip" "$total ms" "$avg ms" "$median ms"
+    printf "| %-8s | %-7s | %-11s | %-11s | %-10s |\n" "$pname" "$pip" "$total ms" "$avg ms" "$median ms"
 done
 
 exit 0;
